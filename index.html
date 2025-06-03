@@ -78,9 +78,8 @@
     }
 
     function submitAction(action) {
-      fetch("https://script.google.com/macros/s/AKfycbwwOzp1N0kWkr68ItJgXSANgGg8Z_jnGSsB5Zog4cQZnAueamFQEPdX6fp-nW4L5Z7cdA/exec", {
+      fetch("YOUR_WEB_APP_URL_HERE", {
         method: "POST",
-        mode: "cors",
         headers: {
           "Content-Type": "application/json"
         },
@@ -93,13 +92,18 @@
       })
       .then(response => response.json())
       .then(data => {
-        alert("Thanks! Your interest has been recorded.");
+        if (data.success) {
+          alert("Thanks! Your interest has been recorded.");
+        } else {
+          alert("Submission failed: " + data.error);
+        }
       })
       .catch(error => {
         console.error("Error submitting:", error);
         alert("Something went wrong. Please try again later.");
       });
     }
+
   </script>
 </body>
 </html>
