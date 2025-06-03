@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Start Your Supplement Trial</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .hidden {
+      display: none;
+    }
+    .cta-button, .submit-button {
+      display: block;
+      width: 80%;
+      max-width: 500px;
+      margin: 1em auto;
+      padding: 1em;
+      font-size: 1.1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .cta-button:hover, .submit-button:hover {
+      background-color: #0056b3;
+    }
+    input {
+      padding: 0.5em;
+      font-size: 1em;
+      margin: 0.5em;
+      width: 80%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Start Your Supplement Trial Journey</h1>
+
+  <div id="form-section">
+    <input type="text" id="name" placeholder="Your Full Name" required><br>
+    <input type="email" id="email" placeholder="Your Email" required><br>
+    <input type="text" id="company" placeholder="Your Company (optional)"><br>
+    <button class="submit-button" onclick="submitForm()">Continue</button>
+  </div>
+
+  <div id="cta-section" class="hidden">
+    <button class="cta-button" onclick="submitAction('Start Trial')">Start Your Supplement Trial Today</button>
+    <button class="cta-button" onclick="submitAction('Free Consultation')">Request a Free Consultation</button>
+    <button class="cta-button" onclick="submitAction('Schedule Strategy Session')">Schedule a Trial Design Strategy Session</button>
+    <button class="cta-button" onclick="submitAction('Talk to Director')">Talk to a Study Director</button>
+    <button class="cta-button" onclick="submitAction('Download Guide')">Download Our Capabilities Guide</button>
+  </div>
+
+  <script>
+    let visitorName = "", visitorEmail = "", visitorCompany = "";
+
+    function submitForm() {
+      visitorName = document.getElementById("name").value.trim();
+      visitorEmail = document.getElementById("email").value.trim();
+      visitorCompany = document.getElementById("company").value.trim();
+
+      if (!visitorName || !visitorEmail) {
+        alert("Please fill in your name and email.");
+        return;
+      }
+
+      document.getElementById("form-section").style.display = "none";
+      document.getElementById("cta-section").classList.remove("hidden");
+    }
+
+    function submitAction(action) {
+      fetch("https://script.google.com/macros/s/AKfycbwwOzp1N0kWkr68ItJgXSANgGg8Z_jnGSsB5Zog4cQZnAueamFQEPdX6fp-nW4L5Z7cdA/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: visitorName,
+          email: visitorEmail,
+          company: visitorCompany,
+          action: action
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Thank you! Your response was recorded.");
+        } else {
+          alert("Submission failed: " + data.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error submitting:", error);
+        alert("Something went wrong. Please try again later.");
+      });
+    }
+  </script>
+</body>
+</html>
